@@ -50,7 +50,7 @@ const todoSlice = createSlice({
       },
     },
     todoDeleted: todosAdapter.removeOne,
-    allTodoCompleted(state, action) {
+    allTodosCompleted(state, action) {
       Object.values(state.entites).forEach((todo) => {
         todo.completed = true;
       });
@@ -76,7 +76,7 @@ const todoSlice = createSlice({
 });
 
 export const {
-  allTodoCompleted,
+  allTodosCompleted,
   completedTodoCleared,
   todoAdded,
   todoColorSelected,

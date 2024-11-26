@@ -1,7 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectTodos } from "../todos/todosSlice";
-import { completedTodoCleared } from "../todos/todosSlice";
-import { statusFilterChanged } from "../filters/filtersSlice";
+import { availableColors, capitalize } from "../filters/colors";
+import { completedTodoCleared, allTodosCompleted } from "../todos/todosSlice";
+import {
+  StatusFilters,
+  statusFilterChanged,
+  colorFilterChanged,
+} from "../filters/filtersSlice";
 
 const RemainingTodos = ({ count }) => {
   const suffix = count === 1 ? "" : "s";
@@ -15,8 +20,8 @@ const RemainingTodos = ({ count }) => {
 };
 
 const statusFilter = ({ value: status, onChange }) => {
-  const renderFilter = Object.keys(statusFilter).map((key) => {
-    const value = statusFilter[key];
+  const renderFilter = Object.keys(StatusFilters).map((key) => {
+    const value = StatusFilters[key];
     const handleClick = () => onChange(value);
     const className = value === status ? "selected" : "";
     return (
@@ -28,7 +33,7 @@ const statusFilter = ({ value: status, onChange }) => {
     );
   });
   return (
-    <div className="filter statusFitler">
+    <div className="filter statusFilters">
       <h5>Filter by Status</h5>
       <ul>{renderFilter}</ul>
     </div>
@@ -51,7 +56,13 @@ const colorFilters = ({ value: colors, onChange }) => {
           checked={checked}
           onChange={handleChange}
         ></input>
-        <span className="color-black"></span>
+        <span
+          className="color-black"
+          style={{
+            backgroundColor: color,
+          }}
+        ></span>
+        {capitalize(color)}
       </label>
     );
   });
@@ -78,7 +89,7 @@ const Footer = () => {
   const onClearCompletedClicked = () => dispatch(completedTodoCleared());
 
   const onColorChange = (color, changeType) =>
-    dispatch(colorFiltersChanged(color, changeType));
+    dispatch(colorFilterChanged(color, changeType));
 
   const onStatusChange = (status) => dispatch(statusFilterChanged);
 
@@ -95,7 +106,7 @@ const Footer = () => {
       </div>
 
       <RemainingTodos count={todoRemaining} />
-      <statusFilter value={status} onChange={onStatusChange} />
+      <StatusFilters value={status} onChange={onStatusChange} />
       <colorFilters value={color} onChange={onColorChange} />
     </Footer>
   );

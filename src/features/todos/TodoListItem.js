@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { todoToggle } from "./todosSlice";
 import { ReactComponent as TimesSolid } from "./times-solid.svg";
-import { todoColorSelected } from "./todosSlice";
+import { todoColorSelected, selectTodoById, todoDeleted } from "./todosSlice";
 import { availableColors, capitalize } from "../filters/color";
 
 const TodoListItem = ({ id }) => {
@@ -14,7 +14,7 @@ const TodoListItem = ({ id }) => {
   const handleCompletedChanged = () => {
     dispatch(todoToggle(todo.id));
   };
-  const handleColorChanged = () => {
+  const handleColorChanged = (e) => {
     const color = e.target.value;
     dispatch(todoColorSelected(todo.id, color));
   };
